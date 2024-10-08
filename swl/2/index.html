@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple web launcher - LocalStorage version</title>
+</head>
+<body>
+    <button onclick="goBack()">Back</button>
+    <h1>Simple web launcher - LocalStorage version</h1><br>
+    <h2>Open URL in a New Tab</h2>
+    <input type="text" id="urlInput" placeholder="Type the URL here">
+    <button onclick="openGame()">Launch</button>
+    <button onclick="addToFavorites()">Add to Favorites</button>
+    <h2>Favorites</h2>
+    <ul id="favoritesList"></ul>
+
+    <script>
+        const maxFavorites = 5;
+
+        // Load favorites from localStorage when the page loads
+        window.onload = function() {
+            const favorites = getFavorites();
+            favorites.forEach(favorite => addFavoriteToList(favorite.name, favorite.url));
+        };
+
+        function openGame() {
+            const url = document.getElementById('urlInput').value;
+            if (url) {
+                launchUrl(url);
+            }
+        }
+
+        function launchUrl(url) {
+            const win = window.open();
+            const iframe = win.document.createElement('iframe');
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.border = "none";
+            iframe.src = url;
+            win.document.body.appendChild(iframe);
+        }
+
+        function addToFavorites() {
+            const url = document.getElementById('urlInput').value;
+            if (url) {
+                const name = prompt("Enter a name for this favorite:");
+                if (name) {
+                    const favorites = getFavorites();
+                    if (!favorites.some(favorite => favorite.url === url)) {
+                        if (favorites.length >= maxFavorites) {
+                            favorites.shift(); // Remove the oldest
+                        }
+                        favorites.push({ name, url });
+                        setFavorites(favorites);
+                        addFavoriteToList(name, url);
+                    } else {
+                        alert("This URL is already in favorites.");
+                    }
+                }
+            }
+        }
+
+        function addFavoriteToList(name, url) {
+            const li = document.createElement('li');
+            li.textContent = name; // Display the name instead of the URL
+            li.onclick = () => launchUrl(url); // Launch URL on click
+            document.getElementById('favoritesList').appendChild(li);
+        }
+
+        function setFavorites(favorites) {
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        function getFavorites() {
+            const favorites = localStorage.getItem('favorites');
+            return favorites ? JSON.parse(favorites) : [];
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
