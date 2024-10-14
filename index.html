@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple web launcher</title>
-    <style>
-        iframe {
-            border: none;
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
 </head>
 <body>
     <h1>Simple web launcher</h1><br>
@@ -24,6 +17,7 @@
     <script>
         const maxFavorites = 10;
 
+        // Load favorites from localStorage when the page loads
         window.onload = function() {
             const favorites = getFavorites();
             favorites.forEach(favorite => addFavoriteToList(favorite.name, favorite.url));
@@ -37,8 +31,11 @@
         }
 
         function launchUrl(url) {
-            const win = window.open(url, '_blank', 'width=' + screen.width + ',height=' + screen.height + ',top=0,left=0');
+            const win = window.open();
             const iframe = win.document.createElement('iframe');
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.border = "none";
             iframe.src = url;
             win.document.body.appendChild(iframe);
         }
@@ -65,8 +62,8 @@
 
         function addFavoriteToList(name, url) {
             const li = document.createElement('li');
-            li.textContent = name;
-            li.onclick = () => launchUrl(url);
+            li.textContent = name; // Display the name instead of the URL
+            li.onclick = () => launchUrl(url); // Launch URL on click
             document.getElementById('favoritesList').appendChild(li);
         }
 
