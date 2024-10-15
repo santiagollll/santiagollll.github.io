@@ -16,9 +16,8 @@
     <ul id="favoritesList"></ul>
 
     <script>
-        const maxFavorites = 5;
+        const maxFavorites = 10;
 
-        // Load favorites from cookies when the page loads
         window.onload = function() {
             const favorites = getFavorites();
             favorites.forEach(favorite => addFavoriteToList(favorite.name, favorite.url));
@@ -38,6 +37,7 @@
             iframe.style.height = "100%";
             iframe.style.border = "none";
             iframe.src = url;
+            win.document.body.style.margin = "0";
             win.document.body.appendChild(iframe);
         }
 
@@ -49,7 +49,7 @@
                     const favorites = getFavorites();
                     if (!favorites.some(favorite => favorite.url === url)) {
                         if (favorites.length >= maxFavorites) {
-                            favorites.shift(); // Remove the oldest
+                            favorites.shift();
                         }
                         favorites.push({ name, url });
                         setFavorites(favorites);
@@ -63,14 +63,13 @@
 
         function addFavoriteToList(name, url) {
             const li = document.createElement('li');
-            li.textContent = name; // Display the name instead of the URL
-            li.onclick = () => launchUrl(url); // Launch URL on click
+            li.textContent = name;
+            li.onclick = () => launchUrl(url);
             document.getElementById('favoritesList').appendChild(li);
         }
 
         function setFavorites(favorites) {
             const cookieValue = JSON.stringify(favorites);
-            // Set cookie to expire in 10 years (you can adjust the duration)
             const expires = new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000).toUTCString();
             document.cookie = `favorites=${encodeURIComponent(cookieValue)}; expires=${expires}; path=/`;
         }
