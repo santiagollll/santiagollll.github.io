@@ -37,6 +37,7 @@
             iframe.style.height = "100%";
             iframe.style.border = "none";
             iframe.src = url;
+            win.document.body.style.margin = "0";
             win.document.body.appendChild(iframe);
         }
 
@@ -62,8 +63,8 @@
 
         function addFavoriteToList(name, url) {
             const li = document.createElement('li');
-            li.textContent = name; // Display the name instead of the URL
-            li.onclick = () => launchUrl(url); // Launch URL on click
+            li.textContent = name;
+            li.onclick = () => launchUrl(url);
             document.getElementById('favoritesList').appendChild(li);
         }
 
