@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Ruleta y Martingala</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero panel">
+        <div class="hero-copy">
+          <p class="eyebrow">Ruleta roja, explicado sin vueltas</p>
+          <h1>Calcula probabilidades y montos de una estrategia de doblar la apuesta.</h1>
+          <p class="lead">
+            Esta página está pensada para alguien que no sabe nada del tema. Tú
+            eliges cuántos tiros quieres analizar y el sitio te muestra, en palabras
+            simples, cuánto arriesgas, cuánto podrías ganar y qué pasa si ganas antes.
+          </p>
+          <div class="hero-badges">
+            <span>Probabilidad de perder todas</span>
+            <span>Dinero total invertido</span>
+            <span>Ganancia neta del ciclo</span>
+          </div>
+        </div>
+        <aside class="hero-note">
+          <p class="hero-note-title">Idea principal</p>
+          <p>
+            En la martingala clásica, si pierdes duplicas la apuesta siguiente. Si
+            luego ganas, recuperas lo perdido y terminas con una ganancia neta igual
+            a tu apuesta inicial.
+          </p>
+        </aside>
+      </section>
+
+      <section class="grid">
+        <article class="panel calculator-card">
+          <div class="section-head">
+            <p class="section-kicker">Calculadora 1</p>
+            <h2>Probabilidad de perder todas las veces</h2>
+            <p>
+              Usa esta parte para saber qué tan probable es perder todos los tiros
+              seguidos si decides intentar <strong>X</strong> veces.
+            </p>
+          </div>
+
+          <div class="form-grid">
+            <label class="field">
+              <span>Cantidad total de tiros (X)</span>
+              <input id="shots-input" type="number" min="1" step="1" value="5" />
+            </label>
+          </div>
+
+          <div class="formula-box">
+            <p class="formula-label">Fórmula usada</p>
+            <p id="probability-formula" class="formula-text">(10/19)<sup>X</sup></p>
+          </div>
+
+          <div class="results-grid">
+            <section class="result-tile accent-red">
+              <p class="result-label">Probabilidad de perder las X veces seguidas</p>
+              <p id="lose-all-percent" class="result-value">0%</p>
+              <p id="lose-all-decimal" class="result-note">0</p>
+            </section>
+            <section class="result-tile accent-gold">
+              <p class="result-label">Probabilidad de ganar al menos una vez</p>
+              <p id="win-once-percent" class="result-value">0%</p>
+              <p id="win-once-decimal" class="result-note">0</p>
+            </section>
+          </div>
+
+          <div id="probability-explainer" class="plain-explainer"></div>
+        </article>
+
+        <article class="panel calculator-card">
+          <div class="section-head">
+            <p class="section-kicker">Calculadora 2</p>
+            <h2>Dinero necesario usando martingala clásica</h2>
+            <p>
+              Aquí calculas cuánto dinero necesitas si estás dispuesto a llegar hasta
+              el tiro <strong>X</strong>, y también qué pasa si ganas antes.
+            </p>
+          </div>
+
+          <div class="form-grid money-grid">
+            <fieldset class="field fieldset">
+              <legend>Cómo quieres ingresar el dato inicial</legend>
+              <label class="inline-option">
+                <input type="radio" name="entry-mode" value="stake" checked />
+                <span>Partir desde la apuesta inicial</span>
+              </label>
+              <label class="inline-option">
+                <input type="radio" name="entry-mode" value="target" />
+                <span>Partir desde la ganancia neta deseada</span>
+              </label>
+            </fieldset>
+
+            <label class="field">
+              <span>Tiro máximo que estás dispuesto a hacer (X)</span>
+              <input id="max-round-input" type="number" min="1" step="1" value="5" />
+            </label>
+
+            <label class="field">
+              <span id="amount-label">Dinero del primer tiro</span>
+              <input id="amount-input" type="number" min="0.01" step="0.01" value="1000" />
+            </label>
+
+            <label class="field">
+              <span>Si ganas antes, ¿en qué tiro quieres mirar el resultado?</span>
+              <select id="early-win-select"></select>
+            </label>
+          </div>
+
+          <div class="results-grid money-results">
+            <section class="result-tile accent-ink">
+              <p class="result-label">Primer tiro</p>
+              <p id="first-bet" class="result-value">$0</p>
+              <p class="result-note">El monto con el que comienza la secuencia.</p>
+            </section>
+            <section class="result-tile accent-ink">
+              <p class="result-label">Dinero total invertido si llegas hasta X</p>
+              <p id="total-invested-max" class="result-value">$0</p>
+              <p class="result-note">Es el capital total apostado hasta ese punto.</p>
+            </section>
+            <section class="result-tile accent-gold">
+              <p class="result-label">Ganancia neta si ganas en el tiro X</p>
+              <p id="net-gain-max" class="result-value">$0</p>
+              <p class="result-note">En el sistema clásico esta ganancia se mantiene fija.</p>
+            </section>
+            <section class="result-tile accent-ink">
+              <p class="result-label">Dinero total invertido si ganas en el tiro elegido</p>
+              <p id="total-invested-early" class="result-value">$0</p>
+              <p class="result-note">Así ves cuánto dinero alcanzaste a usar si ganaste antes.</p>
+            </section>
+            <section class="result-tile accent-red">
+              <p class="result-label">Ganancia neta si ganas en el tiro elegido</p>
+              <p id="net-gain-early" class="result-value">$0</p>
+              <p id="early-win-caption" class="result-note">Consulta para un tiro anterior.</p>
+            </section>
+          </div>
+
+          <div class="split-output">
+            <section class="subpanel">
+              <h3>Cómo ir aumentando la apuesta</h3>
+              <ol id="bet-steps" class="steps-list"></ol>
+            </section>
+            <section class="subpanel">
+              <h3>Lectura rápida del caso elegido</h3>
+              <div id="money-summary" class="plain-explainer"></div>
+              <div id="risk-warning" class="warning-box" hidden></div>
+            </section>
+          </div>
+        </article>
+      </section>
+
+      <section class="grid lower-grid">
+        <article class="panel help-card">
+          <div class="section-head">
+            <p class="section-kicker">Guía rápida</p>
+            <h2>Qué significa cada resultado</h2>
+          </div>
+          <div class="glossary">
+            <div>
+              <h3>Primer tiro</h3>
+              <p>Es la apuesta con la que partes. Si pierdes, la siguiente se duplica.</p>
+            </div>
+            <div>
+              <h3>Dinero total invertido</h3>
+              <p>Es la suma de todo lo apostado hasta un tiro determinado, no solo el último monto.</p>
+            </div>
+            <div>
+              <h3>Ganancia neta</h3>
+              <p>Es lo que te queda al final después de recuperar pérdidas y descontar lo que ya habías apostado.</p>
+            </div>
+            <div>
+              <h3>Ganar antes</h3>
+              <p>Si ganas antes del tiro X, usas menos dinero total, aunque en martingala clásica la ganancia neta final siga siendo la misma.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel help-card">
+          <div class="section-head">
+            <p class="section-kicker">Ajustes avanzados</p>
+            <h2>Configuración oculta de probabilidades</h2>
+            <p>
+              Por defecto está configurado para apostar al rojo en ruleta europea:
+              perder = 10 de 19, ganar = 9 de 19. Si quieres, puedes cambiarlo aquí.
+            </p>
+          </div>
+
+          <details class="advanced-settings">
+            <summary>Mostrar ajustes avanzados</summary>
+            <div class="advanced-grid">
+              <label class="field">
+                <span>Resultados que hacen perder</span>
+                <input id="lose-outcomes-input" type="number" min="0" step="1" value="10" />
+              </label>
+              <label class="field">
+                <span>Total de resultados posibles</span>
+                <input id="total-outcomes-input" type="number" min="1" step="1" value="19" />
+              </label>
+            </div>
+            <p id="advanced-probability-copy" class="advanced-copy"></p>
+          </details>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
