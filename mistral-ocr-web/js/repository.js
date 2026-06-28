@@ -266,6 +266,47 @@ export async function updateMarkdown(hash, markdown) {
   return getPreviewData(hash);
 }
 
+export async function updateConfidenceDecision(hash, key) {
+  const artifact = await getOcrArtifact(hash);
+  const normalizedKey = String(key || '');
+  if (!normalizedKey) throw new Error('Falta identificador de palabra.');
+  await saveOcrArtifact({
+    ...artifact,
+    hash,
+    markdown: artifact.markdown || '',
+    images: artifact.images || [],
+    pages: artifact.pages ?? 0,
+    imagesCount: artifact.imagesCount ?? 0,
+    resourceKind: artifact.resourceKind || null,
+    confidenceWords: artifact.confidenceWords || [],
+    confidenceDecisions: {
+      ...(artifact.confidenceDecisions || {}),
+      [normalizedKey]: 'keep'
+    }
+  });
+  return getPreviewData(hash);
+}
+
+export async function updateConfidenceDecisions(hash, keys) {
+  const artifact = await getOcrArtifact(hash);
+  const normalizedKeys = Array.from(new Set((Array.isArray(keys) ? keys : []).map((key) => String(key || '')).filter(Boolean)));
+  if (!normalizedKeys.length) throw new Error('Faltan identificadores de palabras.');
+  const confidenceDecisions = { ...(artifact.confidenceDecisions || {}) };
+  for (const key of normalizedKeys) confidenceDecisions[key] = 'keep';
+  await saveOcrArtifact({
+    ...artifact,
+    hash,
+    markdown: artifact.markdown || '',
+    images: artifact.images || [],
+    pages: artifact.pages ?? 0,
+    imagesCount: artifact.imagesCount ?? 0,
+    resourceKind: artifact.resourceKind || null,
+    confidenceWords: artifact.confidenceWords || [],
+    confidenceDecisions
+  });
+  return getPreviewData(hash);
+}
+
 export async function getMarkdown(hash) {
   const artifact = await getOcrArtifact(hash);
   return { ok: true, content: artifact.markdown || '' };
