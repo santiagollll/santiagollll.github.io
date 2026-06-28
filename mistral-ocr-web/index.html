@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mistral OCR Web</title>
+    <link rel="icon" href="icon32.png">
+    <link rel="stylesheet" href="styles/mistral-ui.css">
+    <link rel="stylesheet" href="web.css">
+  </head>
+  <body class="web-page">
+    <main class="app-shell web-shell">
+      <header class="app-header">
+        <div>
+          <div class="eyebrow">Mistral OCR Web</div>
+          <h1>Transcripcion OCR local</h1>
+          <p>Sube un archivo compatible, procesa OCR con tu API key de Mistral y guarda los resultados en este navegador.</p>
+        </div>
+        <nav class="actions" aria-label="Navegacion">
+          <a class="button subtle" href="transcriptions.html">Historial</a>
+          <a class="button subtle" href="options.html">Configuracion</a>
+        </nav>
+      </header>
+
+      <div id="status" class="small status-line" aria-live="polite"></div>
+
+      <section id="setupGuide" class="panel setup-guide hidden" aria-label="Configuracion inicial">
+        <div>
+          <div class="eyebrow">Primer uso</div>
+          <h2>Configura tu API key</h2>
+          <p>La web no tiene backend. Tu archivo se envia directo desde tu navegador a Mistral AI.</p>
+        </div>
+        <div class="actions">
+          <a class="button primary" href="options.html">Configurar API key</a>
+          <a class="button subtle" href="https://console.mistral.ai/" target="_blank" rel="noopener noreferrer">Abrir Mistral Console</a>
+        </div>
+      </section>
+
+      <section class="panel web-upload-panel" aria-label="OCR">
+        <div class="upload-grid">
+          <label class="file-drop" id="fileDrop">
+            <span class="file-drop-title">Selecciona o arrastra un archivo</span>
+            <span class="small">PDF, imagenes, Word, PowerPoint, Excel, CSV, TXT, EPUB, XML, RTF, ODT, TeX y otros formatos soportados por Mistral OCR.</span>
+            <input id="fileInput" type="file" accept=".pdf,.jpg,.jpeg,.png,.avif,.tif,.tiff,.gif,.heic,.heif,.bmp,.webp,.docx,.doc,.pptx,.ppt,.xlsx,.csv,.txt,.epub,.xml,.rtf,.odt,.bib,.fb2,.ipynb,.tex,.opml,.man,image/*,application/pdf">
+          </label>
+
+          <div class="stack">
+            <div>
+              <div class="small">Archivo actual</div>
+              <div id="fileInfo" class="resource-name">Ningun archivo seleccionado</div>
+            </div>
+
+            <div class="row">
+              <button id="btnRun" class="primary" type="button" disabled>Transcribir (OCR)</button>
+              <button id="btnCancel" class="danger hidden" type="button">Cancelar</button>
+            </div>
+
+            <label class="inline">
+              <input id="includeImages" type="checkbox" checked>
+              <span>Guardar imagenes extraidas</span>
+            </label>
+
+            <label id="apiKeySelectWrap" class="inline hidden">
+              <span>API key</span>
+              <select id="apiKeySelect"></select>
+            </label>
+          </div>
+        </div>
+
+        <div id="progressBox" class="small hidden" aria-live="polite">
+          <strong>OCR en progreso</strong>
+          <div id="progressText"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-label="Transcripciones recientes">
+        <div class="section-title">
+          <h2>Transcripciones recientes</h2>
+          <a class="small" href="transcriptions.html">Ver todas</a>
+        </div>
+        <div id="recentList"></div>
+      </section>
+    </main>
+
+    <script type="module" src="js/index.js"></script>
+  </body>
+</html>

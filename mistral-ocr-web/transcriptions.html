@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Historial - Mistral OCR Web</title>
+    <link rel="icon" href="icon32.png">
+    <link rel="stylesheet" href="styles/mistral-ui.css">
+    <link rel="stylesheet" href="web.css">
+  </head>
+  <body class="transcriptions-page">
+    <main class="app-shell transcriptions-shell">
+      <header class="app-header">
+        <div>
+          <div class="eyebrow">Archivo local web</div>
+          <h1>Transcripciones guardadas</h1>
+          <p>Busca por nombre, SHA, tipo o metadatos. Todo esta guardado en este navegador.</p>
+        </div>
+        <nav class="actions">
+          <a class="button subtle" href="index.html">OCR</a>
+          <a class="button subtle" href="options.html">Configuracion</a>
+        </nav>
+      </header>
+
+      <div id="status" class="small status-line" aria-live="polite"></div>
+
+      <label class="search">
+        <span class="small">Buscar transcripciones</span>
+        <input id="searchBox" type="search" placeholder="Nombre, SHA o tipo">
+      </label>
+
+      <section id="list" class="transcription-list" aria-label="Lista de transcripciones"></section>
+    </main>
+
+    <script type="module" src="js/transcriptions.js"></script>
+  </body>
+</html>

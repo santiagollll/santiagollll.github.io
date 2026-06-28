@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Preview/Edit - Mistral OCR Web</title>
+    <link rel="icon" href="icon32.png">
+    <link rel="stylesheet" href="vendor/katex/katex.min.css">
+    <link rel="stylesheet" href="styles/mistral-ui.css">
+    <link rel="stylesheet" href="web.css">
+  </head>
+  <body class="preview-page">
+    <header class="topbar">
+      <div class="title">
+        <div class="eyebrow">Preview/Edit Web</div>
+        <h1 id="title">Preview/Edit</h1>
+        <div id="meta" class="meta"></div>
+        <div id="confidenceSummary" class="confidence-summary"></div>
+      </div>
+      <nav class="actions" aria-label="Acciones">
+        <a class="button subtle" href="transcriptions.html">Historial</a>
+        <button id="saveMd" type="button" hidden>Guardar cambios</button>
+        <button id="copyRaw" type="button">Copiar markdown</button>
+        <button id="exportMd" type="button">Exportar markdown</button>
+        <button id="exportPdf" type="button">Exportar PDF</button>
+        <button id="exportImages" type="button">Exportar imagenes</button>
+      </nav>
+    </header>
+
+    <main class="preview-main">
+      <div id="status" class="small status-line" aria-live="polite"></div>
+      <section id="splitMode" class="split">
+        <article class="panel">
+          <h2 class="split-title">Markdown</h2>
+          <div id="rawEditor" class="viewer raw" contenteditable="true" spellcheck="false"></div>
+        </article>
+        <article class="panel">
+          <h2 class="split-title">Renderizado</h2>
+          <div id="splitRendered" class="viewer markdown-body"></div>
+        </article>
+      </section>
+    </main>
+
+    <script src="vendor/marked/marked.umd.js"></script>
+    <script src="vendor/dompurify/purify.min.js"></script>
+    <script src="vendor/katex/katex.min.js"></script>
+    <script src="vendor/katex/auto-render.min.js"></script>
+    <script type="module" src="js/preview.js"></script>
+  </body>
+</html>

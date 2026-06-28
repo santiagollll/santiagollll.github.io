@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configuracion - Mistral OCR Web</title>
+    <link rel="icon" href="icon32.png">
+    <link rel="stylesheet" href="styles/mistral-ui.css">
+    <link rel="stylesheet" href="web.css">
+  </head>
+  <body class="options-page">
+    <main class="app-shell options-grid">
+      <header class="app-header">
+        <div>
+          <div class="eyebrow">Configuracion web</div>
+          <h1>Mistral OCR Web</h1>
+          <p>Credenciales y preferencias guardadas solo en este navegador.</p>
+        </div>
+        <nav class="actions">
+          <a class="button subtle" href="index.html">OCR</a>
+          <a class="button subtle" href="transcriptions.html">Historial</a>
+        </nav>
+      </header>
+
+      <section class="settings-grid" aria-label="API keys">
+        <article class="card stack">
+          <div>
+            <div class="eyebrow">Credencial principal</div>
+            <h2>API key 1</h2>
+          </div>
+          <div class="field-group">
+            <label for="apiKey1Label">Nombre visible</label>
+            <input id="apiKey1Label" type="text" placeholder="API KEY 1" autocomplete="off">
+          </div>
+          <div class="field-group">
+            <label for="apiKey1">Clave</label>
+            <div class="field-row">
+              <input id="apiKey1" type="password" placeholder="Tu API key de Mistral" autocomplete="off">
+              <button type="button" data-toggle-password="apiKey1">Mostrar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card stack">
+          <div>
+            <div class="eyebrow">Credencial opcional</div>
+            <h2>API key 2</h2>
+          </div>
+          <div class="field-group">
+            <label for="apiKey2Label">Nombre visible</label>
+            <input id="apiKey2Label" type="text" placeholder="API KEY 2" autocomplete="off">
+          </div>
+          <div class="field-group">
+            <label for="apiKey2">Clave</label>
+            <div class="field-row">
+              <input id="apiKey2" type="password" placeholder="Opcional" autocomplete="off">
+              <button type="button" data-toggle-password="apiKey2">Mostrar</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="card stack">
+        <div>
+          <div class="eyebrow">OCR</div>
+          <h2>Opciones de procesamiento</h2>
+        </div>
+        <label class="toggle-row">
+          <input id="includeImages" type="checkbox">
+          <span>Guardar imagenes extraidas por Mistral</span>
+        </label>
+        <label class="toggle-row">
+          <input id="removeDocumentHeader" type="checkbox">
+          <span>Eliminar header del documento cuando Mistral lo detecte</span>
+        </label>
+        <label class="toggle-row">
+          <input id="removeDocumentFooter" type="checkbox">
+          <span>Eliminar footer del documento cuando Mistral lo detecte</span>
+        </label>
+      </section>
+
+      <section class="card stack">
+        <div>
+          <div class="eyebrow">Exportacion</div>
+          <h2>Archivos e imagenes</h2>
+        </div>
+        <div class="field-group">
+          <label for="imageExportMode">Exportacion de imagenes</label>
+          <select id="imageExportMode">
+            <option value="zip">Descargar imagenes por ZIP</option>
+            <option value="separate">Descargar imagenes por separado</option>
+          </select>
+        </div>
+        <label class="toggle-row">
+          <input id="previewAutoSaveDisabled" type="checkbox">
+          <span>Desactivar autosave en Preview/Edit y mostrar boton Guardar</span>
+        </label>
+      </section>
+
+      <section class="row between">
+        <button id="save" class="primary" type="button">Guardar</button>
+        <div id="msg" class="small message" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script type="module" src="js/options.js"></script>
+  </body>
+</html>
